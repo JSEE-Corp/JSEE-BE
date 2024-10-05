@@ -1,0 +1,57 @@
+GET http://localhost:3000
+
+###
+GET http://localhost:3000/api/groups
+
+###
+GET http://localhost:3000/api/groups?sortBy=mostLiked&isPublic=true
+
+###
+POST http://localhost:3000/api/groups
+Content-Type: application/json
+
+{
+	"name": "test3",
+	"password": "test3",
+	"imageUrl": "test3",
+	"isPublic": false,
+	"introduction": "test3test3test3test3"
+}
+
+
+###
+PUT http://localhost:3000/api/groups/19
+Content-Type: application/json
+
+{
+	"name": "test19",
+	"password": "test3",
+	"imageUrl": "test19",
+	"isPublic": false,
+	"introduction": "test19 test19 test19 test19 "
+}
+
+
+###
+DELETE http://localhost:3000/api/groups/19
+Content-Type: application/json
+
+{
+	"password": "test3"
+}
+
+###
+GET http://localhost:3000/api/groups/1
+###
+POST http://localhost:3000/api/groups/14/verify-password
+Content-Type: application/json
+
+{
+	"password": "test3"
+}
+###
+POST http://localhost:3000/api/groups/2/like
+Content-Type: application/json
+
+###
+GET http://localhost:3000/api/groups/1/is-public

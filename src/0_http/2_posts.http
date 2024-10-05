@@ -1,0 +1,64 @@
+GET http://localhost:3000/api/groups/1/posts
+
+###
+GET http://localhost:3000/api/groups/1/posts?page=1&pageSize=50&sortBy=mostBadge&keyword=&isPublic=false
+
+###
+POST http://localhost:3000/api/groups/1/posts
+Content-Type: application/json
+
+{
+	"nickname": "test",
+	"title": "test",
+	"content": "test",
+	"postPassword": "testpost",
+	"groupPassword": "testgroup",
+	"imageUrl": "testtesttesttest",
+	"tags": ["test1", "test2"],
+	"location": "test1",
+	"moment": "2024-02-21",
+	"isPublic": false
+}
+
+
+###
+PUT http://localhost:3000/api/posts/30
+Content-Type: application/json
+
+{
+	"nickname": "test",
+	"title": "test",
+	"content": "test",
+	"postPassword": "testpost",
+	"imageUrl": "testtesttesttest",
+	"tags": ["test1", "test2", "test3"],
+	"location": "test1",
+	"moment": "2024-02-22",
+	"isPublic": true
+}
+
+
+###
+DELETE http://localhost:3000/api/posts/30
+Content-Type: application/json
+
+{
+	"postPassword": "testpost"
+}
+
+###
+GET http://localhost:3000/api/posts/18
+
+###
+POST http://localhost:3000/api/posts/1/verify-password
+Content-Type: application/json
+
+{
+	"password": "testpost"
+}
+###
+POST http://localhost:3000/api/posts/1/like
+Content-Type: application/json
+
+###
+GET http://localhost:3000/api/posts/3/is-public

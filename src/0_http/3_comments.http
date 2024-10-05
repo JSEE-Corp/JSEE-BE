@@ -1,0 +1,35 @@
+GET http://localhost:3000/api/posts/1/comments?page=1&pageSize=50
+###
+GET http://localhost:3000/api/posts/1/comments
+
+###
+POST http://localhost:3000/api/posts/1/comments
+Content-Type: application/json
+
+{
+	"nickname": "test",
+	"content": "test",
+	"password": "test"
+}
+
+
+###
+PUT http://localhost:3000/api/comments/11
+Content-Type: application/json
+
+{
+	"nickname": "test11",
+	"content": "test",
+	"password": "test"
+}
+
+
+###
+DELETE http://localhost:3000/api/comments/11
+Content-Type: application/json
+
+{
+	"password": "test"
+}
+
+
