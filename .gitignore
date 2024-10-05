@@ -1,0 +1,32 @@
+# Node modules
+node_modules/
+
+# Environment variable file
+.env
+
+# Logs
+logs/
+*.log
+
+# Build files
+dist/
+build/
+
+# Test results
+coverage/
+*.lcov
+
+# IDE settings
+.vscode/
+.idea/
+
+# OS specific files
+Thumbs.db
+.DS_Store
+
+# Miscellaneous
+.npmrc
+.eslintcache
+npm-debug.log
+yarn-error.log
+``
