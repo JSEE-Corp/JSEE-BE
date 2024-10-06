@@ -122,9 +122,9 @@ class groupController {
     const { groupId } = req.params;
     const sql = groupQueries.groupLike();
     const data = await connection.executeQuery(sql, [groupId]);
-    await checkBadges(Number(groupId));
 
     if (data.affectedRows == 1) {
+      await checkBadges(Number(groupId));
       return res.status(StatusCodes.OK).json({ message: "그룹 공감하기 성공" });
     } else {
       next();
