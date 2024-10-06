@@ -12,7 +12,7 @@ const groupListModiefied = async (data: any): Promise<any> => {
     imageUrl: row.imageUrl,
     isPublic: Boolean(row.isPublic),
     likeCount: row.likeCount,
-    badgeCount: row.badgeCount,
+    badgeCount: row.badgeSum,
     postCount: row.postController,
     createdAt: row.createdAt,
     introduction: row.introduction,

@@ -6,7 +6,7 @@ const groupQueries = {
                 g.imageUrl,
                 g.isPublic,
                 g.likeCount,
-                g.badgeCount,
+                b.badgeSum,
                 g.postCount,
                 g.createdAt,
                 g.introduction,
