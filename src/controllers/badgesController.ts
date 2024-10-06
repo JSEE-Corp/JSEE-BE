@@ -7,34 +7,50 @@ const connection = mysql.MySQLRepository.getInstance(config);
 async function checkConsecutive7DaysPost(groupId: number): Promise<boolean> {
   const sql = badgeQueries.check7DaysPost();
   const data = await connection.executeQuery(sql, [groupId]);
+  if (Array.isArray(data) && data.length === 0) {
+    return false;
+  }
   return data[0].dayCount >= 7;
 }
 
 async function checkPost20Plus(groupId: number): Promise<boolean> {
   const sql = badgeQueries.checkPost20Plus();
   const data = await connection.executeQuery(sql, [groupId]);
+  if (Array.isArray(data) && data.length === 0) {
+    return false;
+  }
   return data[0].postCount >= 20;
 }
 
 async function check1YearGroup(groupId: number): Promise<boolean> {
   const sql = badgeQueries.check1YearGroup();
   const data = await connection.executeQuery(sql, [groupId]);
-  const createdAt = new Date(data[0].createdAt);
-  const oneYearLater = new Date(
-    createdAt.setFullYear(createdAt.getFullYear() + 1)
-  );
-  return new Date() >= oneYearLater;
+  if (Array.isArray(data) && data.length === 0) {
+    return false;
+  } else {
+    const createdAt = new Date(data[0].createdAt);
+    const oneYearLater = new Date(
+      createdAt.setFullYear(createdAt.getFullYear() + 1)
+    );
+    return new Date() >= oneYearLater;
+  }
 }
 
 async function checkPostLike10k(groupId: number): Promise<boolean> {
-  const postSql = badgeQueries.checkPostLike10k();
-  const postData = await connection.executeQuery(postSql, [groupId]);
-  return postData[0].postCount > 0;
+  const sql = badgeQueries.checkPostLike10k();
+  const data = await connection.executeQuery(sql, [groupId]);
+  if (Array.isArray(data) && data.length === 0) {
+    return false;
+  }
+  return data[0].postCount > 0;
 }
 
 async function checkGroupLike10k(groupId: number): Promise<boolean> {
   const sql = badgeQueries.checkGrpLike10k();
   const data = await connection.executeQuery(sql, [groupId]);
+  if (Array.isArray(data) && data.length === 0) {
+    return false;
+  }
   return data[0].likeCount >= 10000;
 }
 
