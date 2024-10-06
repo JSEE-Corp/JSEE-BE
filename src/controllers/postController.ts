@@ -124,11 +124,14 @@ class postController {
   };
 
   postLike: RequestHandler = async (req, res, next) => {
-    const { groupId, postId } = req.params;
+    const { postId } = req.params;
     const sql = postQueries.postLike();
     const data = await connection.executeQuery(sql, [postId]);
+
     if (data.affectedRows == 1) {
-      await checkBadges(Number(groupId));
+      const getIdSql = postQueries.postGetId();
+      const groupId = await connection.executeQuery(getIdSql, [postId]);
+      await checkBadges(Number(groupId[0].grpid));
       return res
         .status(StatusCodes.OK)
         .json({ message: "게시글 공감하기 성공" });

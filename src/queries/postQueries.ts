@@ -50,6 +50,9 @@ const postQueries = {
   postLike: () => {
     return `UPDATE Posts set likeCount=likeCount+1 WHERE id=?`;
   },
+  postGetId: () => {
+    return `SELECT grpid FROM Posts WHERE id=?`;
+  },
   postLikeRollback: () => {
     return `UPDATE Posts set likeCount=likeCount-1 WHERE id=?`;
   },
