@@ -6,7 +6,7 @@ import express, {
 } from "express";
 import multer from "multer";
 import filter from "./filter/filter";
-import cors from 'cors'
+import cors from "cors";
 
 const app = express();
 const upload = multer({ dest: "uploads/" });
@@ -23,6 +23,8 @@ const postController = require("./controllers/postController");
 const postInstance = new postController();
 const commentController = require("./controllers/commentController");
 const commentInstance = new commentController();
+const imageController = require("./controllers/imageController");
+const imageInstance = new imageController();
 
 // Async handler helper
 const asyncHandler = (fn: RequestHandler): RequestHandler => {
@@ -102,6 +104,8 @@ router
     filter.commentPasswordVerify,
     asyncHandler(commentInstance.commentDelete)
   );
+
+router.post("/api/image", asyncHandler(imageInstance.imagePost));
 
 // error Handler
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
