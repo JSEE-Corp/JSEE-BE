@@ -127,8 +127,8 @@ class postController {
     const { groupId, postId } = req.params;
     const sql = postQueries.postLike();
     const data = await connection.executeQuery(sql, [postId]);
-    await checkBadges(Number(groupId));
     if (data.affectedRows == 1) {
+      await checkBadges(Number(groupId));
       return res
         .status(StatusCodes.OK)
         .json({ message: "게시글 공감하기 성공" });
