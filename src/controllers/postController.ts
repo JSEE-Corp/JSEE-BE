@@ -29,7 +29,7 @@ class postController {
       params.sortBy
     );
     params.sortBy =
-      params.sortBy === "badgeCount DESC" ? "createdAt DESC" : params.sortBy;
+      params.sortBy === "b.badgeSum DESC" ? "createdAt DESC" : params.sortBy;
     const currentPage = params.page;
     const limit = currentPage - 1;
     const offset = currentPage * params.pageSize;

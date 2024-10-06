@@ -222,7 +222,7 @@ const defaultValue = (
       case "mostPosted":
         return "postCount DESC";
       case "mostBadge":
-        return "badgeCount DESC";
+        return "b.badgeSum DESC";
       case "mostLiked":
         return "likeCount DESC";
       case "latest":
