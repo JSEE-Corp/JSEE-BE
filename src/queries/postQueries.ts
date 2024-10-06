@@ -19,7 +19,7 @@ const postQueries = {
   getWhereCondition: (groupId: string, isPublic: boolean, keyword?: string) => {
     let whereCondition = `grpId=${groupId} AND isPublic=${isPublic}`;
     if (keyword != "") {
-      whereCondition += ` AND p.title LIKE '%${keyword}%'`;
+      whereCondition += ` AND (title LIKE '%${keyword}%' OR JSON_CONTAINS(tags,'"${keyword}"'))`;
     }
     return whereCondition;
   },
