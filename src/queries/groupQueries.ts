@@ -78,10 +78,10 @@ const groupQueries = {
     return `SELECT password FROM GroupInfo WHERE id=?`;
   },
   groupLike: () => {
-    return `UPDATE Groupinfo set likeCount=likeCount+1 WHERE id=?`;
+    return `UPDATE GroupInfo set likeCount=likeCount+1 WHERE id=?`;
   },
   groupLikeRollback: () => {
-    return `UPDATE Groupinfo set likeCount=likeCount-1 WHERE id=?`;
+    return `UPDATE GroupInfo set likeCount=likeCount-1 WHERE id=?`;
   },
   groupIsPublic: () => {
     return `SELECT id, isPublic FROM GroupInfo WHERE id=?`;
