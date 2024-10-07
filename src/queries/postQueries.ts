@@ -1,6 +1,22 @@
 const postQueries = {
   getPostsList: (whereCondition: string, sortKey: string) => {
-    return `SELECT * FROM Posts
+    return `SELECT 
+                p.id,
+                p.grpId,
+                p.nickname,
+                p.title,
+                p.content,
+                p.imageUrl,
+                p.location,
+                p.moment,
+                p.isPublic,
+                p.likeCount,
+                (SELECT COUNT(*) FROM comments c WHERE p.id = c.postId) AS commentCount,
+                p.createdAt,
+                p.password,
+                p.tags
+            FROM 
+                posts p
               WHERE ${whereCondition}
               ORDER BY ${sortKey}
               LIMIT ?, ?`;
