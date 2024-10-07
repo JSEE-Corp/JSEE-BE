@@ -11,7 +11,7 @@ const postQueries = {
                 p.moment,
                 p.isPublic,
                 p.likeCount,
-                (SELECT COUNT(*) FROM comments c WHERE p.id = c.postId) AS commentCount,
+                (SELECT COUNT(*) FROM Comments c WHERE p.id = c.postId) AS commentCount,
                 p.createdAt,
                 p.password,
                 p.tags
