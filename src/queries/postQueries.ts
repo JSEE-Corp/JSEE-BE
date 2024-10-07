@@ -16,7 +16,7 @@ const postQueries = {
                 p.password,
                 p.tags
             FROM 
-                posts p
+                Posts p
               WHERE ${whereCondition}
               ORDER BY ${sortKey}
               LIMIT ?, ?`;
