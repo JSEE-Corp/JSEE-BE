@@ -56,17 +56,6 @@ const groupPasswordVerify: RequestHandler = async (req, res, next) => {
       .json({ message: "잘못된 요청입니다" });
   }
   req.validatedData = dtoObject;
-
-  const inputPassword = dtoObject.password;
-  const sql = groupQueries.groupVerifyPassword();
-  const data = await connection.executeQuery(sql, [dtoObject.groupId]);
-  const password = data[0]?.password || "";
-
-  if (inputPassword !== password) {
-    return res
-      .status(StatusCodes.FORBIDDEN)
-      .json({ message: "비밀번호가 틀렸습니다" });
-  }
   next();
 };
 
@@ -125,17 +114,6 @@ const postPasswordVerify: RequestHandler = async (req, res, next) => {
       .json({ message: "잘못된 요청입니다" });
   }
   req.validatedData = dtoObject;
-
-  const inputPassword = dtoObject.password || dtoObject.postPassword;
-  const sql = postQueries.postVerifyPassword();
-  const data = await connection.executeQuery(sql, [dtoObject.postId]);
-  const password = data[0]?.password || "";
-
-  if (inputPassword !== password) {
-    return res
-      .status(StatusCodes.FORBIDDEN)
-      .json({ message: "비밀번호가 틀렸습니다" });
-  }
   next();
 };
 
@@ -225,6 +203,8 @@ const defaultValue = (
         return "b.badgeSum DESC";
       case "mostLiked":
         return "likeCount DESC";
+      case "mostCommented":
+        return "commentCount DESC";
       case "latest":
       default:
         return "createdAt DESC";

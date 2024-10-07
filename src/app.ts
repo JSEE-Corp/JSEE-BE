@@ -7,6 +7,7 @@ import express, {
 import multer from "multer";
 import filter from "./filter/filter";
 import cors from "cors";
+import { StatusCodes } from "http-status-codes";
 
 const app = express();
 const upload = multer({ dest: "uploads/" });
@@ -34,83 +35,75 @@ const asyncHandler = (fn: RequestHandler): RequestHandler => {
 };
 
 // group
-router.get(
-  "/",
-  asyncHandler(async (req: Request, res: Response) => {
-    console.log("get");
-    res.status(200).send("Success");
-  })
-);
-
 router
-  .route("/api/groups")
+  .route("/groups")
   .get(filter.groupVerify, asyncHandler(groupInstance.groupGetList))
   .post(filter.groupVerify, asyncHandler(groupInstance.groupPost));
 
 router
-  .route("/api/groups/:groupId")
+  .route("/groups/:groupId")
   .get(filter.groupVerify, asyncHandler(groupInstance.groupGetDetail))
   .put(filter.groupVerify, asyncHandler(groupInstance.groupPut))
   .delete(filter.groupPasswordVerify, asyncHandler(groupInstance.groupDelete));
 
 router.post(
-  "/api/groups/:groupId/verify-password",
+  "/groups/:groupId/verify-password",
   filter.groupPasswordVerify,
   asyncHandler(groupInstance.groupVerifyPassword)
 );
-router.post("/api/groups/:groupId/like", asyncHandler(groupInstance.groupLike));
+router.post("/groups/:groupId/like", asyncHandler(groupInstance.groupLike));
 router.get(
-  "/api/groups/:groupId/is-public",
+  "/groups/:groupId/is-public",
   asyncHandler(groupInstance.groupIsPublic)
 );
 
 // post
 router
-  .route("/api/groups/:groupId/posts")
+  .route("/groups/:groupId/posts")
   .get(filter.postVerify, asyncHandler(postInstance.postGetList))
   .post(filter.postVerify, asyncHandler(postInstance.postPost));
 
 router
-  .route("/api/posts/:postId")
+  .route("/posts/:postId")
   .get(filter.postIdVerify, asyncHandler(postInstance.postGetDetail))
   .put(filter.postVerify, asyncHandler(postInstance.postPut))
   .delete(filter.postPasswordVerify, asyncHandler(postInstance.postDelete));
 
 router.post(
-  "/api/posts/:postId/verify-password",
+  "/posts/:postId/verify-password",
   filter.postPasswordVerify,
   asyncHandler(postInstance.postVerifyPassword)
 );
 router.post(
-  "/api/posts/:postId/like",
+  "/posts/:postId/like",
   asyncHandler(postInstance.postLike),
   filter.notFound
 );
 router.get(
-  "/api/posts/:postId/is-public",
+  "/posts/:postId/is-public",
   asyncHandler(postInstance.postIsPublic)
 );
 
 // comment
 router
-  .route("/api/posts/:postId/comments")
+  .route("/posts/:postId/comments")
   .get(filter.commentVerify, asyncHandler(commentInstance.commentGetList))
   .post(filter.commentVerify, asyncHandler(commentInstance.commentPost));
 
 router
-  .route("/api/comments/:commentId")
+  .route("/comments/:commentId")
   .put(filter.commentVerify, asyncHandler(commentInstance.commentPut))
   .delete(
     filter.commentPasswordVerify,
     asyncHandler(commentInstance.commentDelete)
   );
 
-router.post("/api/image", asyncHandler(imageInstance.imagePost));
+router.post("/image", asyncHandler(imageInstance.imagePost));
 
 // error Handler
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   console.error("Error: ", err);
-  res.status(500).json({ message: "Internal server error" });
+  res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: "Internal server error" });
 });
 
 app.use(filter.notFound);

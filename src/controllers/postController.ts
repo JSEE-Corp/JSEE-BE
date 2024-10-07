@@ -15,6 +15,9 @@ class postController {
   // api
   postGetList: RequestHandler = async (req, res, next) => {
     const params = req.validatedData;
+    if (params.sortBy === "mostBadge" || params.sortBy === "mostPosted") {
+      params.sortBy = "latest";
+    }
     [
       params.page,
       params.pageSize,
@@ -28,8 +31,6 @@ class postController {
       params.keyword,
       params.sortBy
     );
-    params.sortBy =
-      params.sortBy === "b.badgeSum DESC" ? "createdAt DESC" : params.sortBy;
     const currentPage = params.page;
     const limit = currentPage - 1;
     const offset = currentPage * params.pageSize;
@@ -99,7 +100,10 @@ class postController {
 
     const putSql = postQueries.postPut();
     await connection.executeQuery(putSql, values);
-    await checkBadges(params.groupId);
+
+    const getIdSql = postQueries.postGetId();
+    const groupId = await connection.executeQuery(getIdSql, [params.postId]);
+    await checkBadges(Number(groupId[0].grpid));
 
     const getData = await this.postRowReturn(params.postId);
     return res.status(StatusCodes.OK).json(getData);
@@ -116,11 +120,25 @@ class postController {
   postGetDetail: RequestHandler = async (req, res, next) => {
     const params = req.validatedData;
     const data = await this.postRowReturn(params.postId);
-    res.status(StatusCodes.OK).json(data);
+    return res.status(StatusCodes.OK).json(data);
   };
 
   postVerifyPassword: RequestHandler = async (req, res, next) => {
-    res.status(StatusCodes.OK).json({ message: "비밀번호가 확인되었습니다" });
+    const params = req.validatedData;
+    const inputPassword = params.password || params.postPassword;
+    const sql = postQueries.postVerifyPassword();
+    const data = await connection.executeQuery(sql, [params.postId]);
+    const password = data[0]?.password || "";
+
+    if (inputPassword !== password) {
+      return res
+        .status(StatusCodes.FORBIDDEN)
+        .json({ message: "비밀번호가 틀렸습니다" });
+    } else {
+      return res
+        .status(StatusCodes.OK)
+        .json({ message: "비밀번호가 확인되었습니다" });
+    }
   };
 
   postLike: RequestHandler = async (req, res, next) => {

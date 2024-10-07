@@ -16,6 +16,9 @@ class groupController {
     const params = req.validatedData;
 
     // default value
+    if (params.sortBy === "mostCommented") {
+      params.sortBy = "latest";
+    }
     [
       params.page,
       params.pageSize,
@@ -113,9 +116,21 @@ class groupController {
   };
 
   groupVerifyPassword: RequestHandler = async (req, res, next) => {
-    return res
-      .status(StatusCodes.OK)
-      .json({ message: "비밀번호가 확인되었습니다" });
+    const params = req.validatedData;
+    const inputPassword = params.password;
+    const sql = groupQueries.groupVerifyPassword();
+    const data = await connection.executeQuery(sql, [params.groupId]);
+    const password = data[0]?.password || "";
+
+    if (inputPassword !== password) {
+      return res
+        .status(StatusCodes.FORBIDDEN)
+        .json({ message: "비밀번호가 틀렸습니다" });
+    } else {
+      return res
+        .status(StatusCodes.OK)
+        .json({ message: "비밀번호가 확인되었습니다" });
+    }
   };
 
   groupLike: RequestHandler = async (req, res, next) => {
