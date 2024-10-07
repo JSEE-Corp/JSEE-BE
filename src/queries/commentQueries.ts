@@ -2,6 +2,7 @@ const commentQueries = {
   commentsGetList: () => {
     return `SELECT * FROM Comments
             WHERE postId=?
+            ORDER BY createdAt ASC
             LIMIT ?, ?`;
   },
   commentPost: () => {
